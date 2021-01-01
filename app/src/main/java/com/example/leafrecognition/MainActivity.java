@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private ImageView imageView;
     private ImageView cameraopen;
+    private ImageView search;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imageView = (ImageView)findViewById(R.id.imageView1);
         cameraopen = (ImageView)findViewById(R.id.cameraopen);
+        search = (ImageView)findViewById(R.id.search);
         cameraopen.setOnClickListener(new View.OnClickListener()
         {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -43,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
                     Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,DetailsActivity.class);
+                startActivity(intent);
             }
         });
     }
