@@ -35,7 +35,7 @@ tools:context=".DetailsActivity">
                 android:maxHeight="@dimen/_400sdp"
                 android:minHeight="@dimen/_150sdp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img1" />
+                android:src="@drawable/pata1" />
         </RelativeLayout>
 
         <androidx.appcompat.widget.Toolbar
