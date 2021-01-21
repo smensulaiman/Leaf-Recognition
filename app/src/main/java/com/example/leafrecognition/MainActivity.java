@@ -3,6 +3,8 @@ package com.example.leafrecognition;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,59 +17,70 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.leafrecognition.networking.EventModel;
 import com.example.leafrecognition.networking.ImageSenderInfo;
 import com.example.leafrecognition.networking.NetworkCall;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PathInterface {
     private static final int CAMERA_REQUEST = 1888;
-    private ImageView imageView;
+    private ImageView preview;
     private ImageView cameraopen;
-    private ImageView search;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    private ArrayList<Pata> pataList;
+    private RecyclerView rec_preview;
+    private PataAdapter pataAdapter;
+    String filePath;
+
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageView = (ImageView)findViewById(R.id.imageView1);
-        cameraopen = (ImageView)findViewById(R.id.cameraopen);
-        search = (ImageView)findViewById(R.id.search);
-        cameraopen.setOnClickListener(new View.OnClickListener()
-        {
+        preview = (ImageView) findViewById(R.id.preview);
+        cameraopen = (ImageView) findViewById(R.id.cameraopen);
+        rec_preview = (RecyclerView) findViewById(R.id.rec_preview);
+
+        pataList = new ArrayList<>();
+        pataAdapter = new PataAdapter(this, this, pataList);
+        rec_preview.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        rec_preview.setAdapter(pataAdapter);
+        allImage();
+        cameraopen.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
-            public void onClick(View v)
-            {
-                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-                {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                }
-                else
-                {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                }
+            public void onClick(View v) {
+                openCamera();
             }
         });
-        search.setOnClickListener(new View.OnClickListener() {
+        preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,SearchLeafActivity.class);
-                startActivity(intent);
+                try{
+                    NetworkCall.fileUpload(filePath, new ImageSenderInfo("obj", 22));
+                }catch (Exception e){}
             }
         });
+    }
+
+    public void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, 1);
+        }
     }
 
 
@@ -84,46 +97,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE)
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventModel event) throws ClassNotFoundException {
-        if (event.isTagMatchWith("response")) {
-            String responseMessage = "Response from Server:\n" + event.getMessage();
-            //responseTextView.setText(responseMessage);
-            Toast.makeText(this, responseMessage, Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
-
             Uri tempUri = getImageUri(this.getApplicationContext(), imageBitmap);
-            String filePath = getPath(tempUri);
-            NetworkCall.fileUpload(filePath, new ImageSenderInfo("obj", 22));
+            filePath = getPath(tempUri);
+            Picasso.get().load(new File(filePath)).into(preview);
         }
+
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -141,4 +138,49 @@ public class MainActivity extends AppCompatActivity {
         return cursor.getString(column_index);
     }
 
+    void allImage() {
+        String[] columns = {MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA, MediaStore.Images.Media.DATE_TAKEN};
+        String[] whereArgs = {"image/jpeg", "image/png", "image/jpg"};
+
+        String orderBy = MediaStore.Images.Media.DATE_TAKEN + " DESC";
+        String where = MediaStore.Images.Media.MIME_TYPE + "=? or "
+                + MediaStore.Images.Media.MIME_TYPE + "=? or "
+                + MediaStore.Images.Media.MIME_TYPE + "=?";
+        pataList.clear();
+        try (Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, where, whereArgs, orderBy)) {
+            if (cursor == null || cursor.getCount() <= 0 || !cursor.moveToFirst()) {
+                // this means error, or simply no results found
+                return;
+            }
+            do {
+                String s = cursor.getString(1);
+                pataList.add(new Pata(s));
+                Log.d("path", s);
+
+            } while (cursor.moveToNext());
+
+        }
+        try {
+            Picasso.get().load(new File(pataList.get(0).getPath())).into(preview);
+        } catch (Exception e) {
+        }
+        pataAdapter.notifyDataSetChanged();
+
+
+    }
+
+    @Override
+    public void passPath(String path) {
+        Picasso.get().load(new File(path)).into(preview);
+        filePath=path;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventModel event) throws ClassNotFoundException {
+        if (event.isTagMatchWith("response")) {
+            String responseMessage = "Response from Server:\n" + event.getMessage();
+            //responseTextView.setText(responseMessage);
+            Toast.makeText(this, responseMessage, Toast.LENGTH_SHORT).show();
+        }
+    }
 }
