@@ -16,15 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LeafRecognition"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".WelcomeActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailsActivity" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".DetailsActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTop"/>
     </application>
 
 

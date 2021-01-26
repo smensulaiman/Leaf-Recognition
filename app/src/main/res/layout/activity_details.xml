@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="#FFFFFF"
-tools:context=".DetailsActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".DetailsActivity">
 
 <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
@@ -35,13 +35,13 @@ tools:context=".DetailsActivity">
                 android:maxHeight="@dimen/_400sdp"
                 android:minHeight="@dimen/_150sdp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/pata1" />
+                android:src="@drawable/strawberry" />
         </RelativeLayout>
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="@dimen/_56sdp"
             android:layout_gravity="bottom"
             android:background="@color/white"
             android:contentInsetStart="0dp"
@@ -56,15 +56,15 @@ tools:context=".DetailsActivity">
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_8sdp"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/_8sdp">
-                <RelativeLayout
+                android:layout_marginRight="@dimen/_8sdp">
+                <LinearLayout
+                    android:layout_toLeftOf="@id/share"
                     android:layout_width="match_parent"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content">
 
                     <TextView
@@ -78,36 +78,37 @@ tools:context=".DetailsActivity">
                         android:lines="1"
                         android:padding="0dp"
                         android:singleLine="true"
-                        android:text="Mango leaf"
-                        android:textColor="#7B7B7B"
+                        android:text="Strawberry Leaf"
+                        android:textColor="#000000"
                         android:textSize="@dimen/_18sdp" />
 
-                    <ImageView
-                        android:id="@+id/share"
-                        android:layout_width="@dimen/_26sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:padding="@dimen/_2sdp"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_baseline_share_24" />
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/sub_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif"
+                        android:lines="1"
+                        android:padding="0dp"
+                        android:singleLine="true"
+                        android:text="Fragaria Ananassa"
+                        android:textColor="#4CAF50"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/share"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/_6sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:background="@drawable/shipe_rec_share_back"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_baseline_share_24" />
 
-                <TextView
-                    android:id="@+id/sub_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="0dp"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif"
-                    android:lines="1"
-                    android:padding="0dp"
-                    android:singleLine="true"
-                    android:text="Mangifera indica"
-                    android:textColor="#7B7B7B"
-                    android:textSize="@dimen/_12sdp" />
-            </LinearLayout>
+            </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
 
@@ -130,41 +131,19 @@ tools:context=".DetailsActivity">
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/d1"
+            android:id="@+id/slide_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_toLeftOf="@id/share"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:padding="0dp"
-            android:singleLine="true"
-            android:text="Details"
-            android:textColor="#686868"
-            android:textSize="@dimen/_14sdp" />
-
-        <TextView
-            android:id="@+id/sd1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_toLeftOf="@id/share"
-            android:fontFamily="sans-serif"
-            android:lineSpacingMultiplier="1.25"
-            android:padding="0dp"
-            android:text="Haor is a vast basin-shaped shallow wetland in northern Bangladesh. It is flooded by rainwater every year and takes the shape of a motionless sea. Haors are overflowed with water for seven months annually. In winter and summer, the Haors feel like boundless deserts. When the water runs out, the villages hidden inside the Haor woke up.
-
-There is a little bit of high land outside of the Haor. The locals call them Kandha. Water accumulates inside the beels that are circulated by Kanda (high land). It contains numerous and various fishes. Green grass grows on the dried land. The vast dry land became a pasture for cattle. During the flood fertile soil was deposited in the beels. Farmers cultivate crops and paddy in this fertile soil deposited land.
-
-There are some huge Haors in the northeast of Bangladesh: Kawa Dighi Haor, Chaiyar Haor, Tanguar Haor, Tallar Haor, Naluar Haor, Pachashol Haor, Moiar Haor, Makar Haor, Mahmudpur Haor, Rayer Gaon Haor, Surma Bauler Haor, and Hakaluki Haor, etc. The most famous of these is Tanguar Haor.
-"
-            android:textColor="#7E7E7E"
-            android:textSize="@dimen/_11sdp" />
+            android:padding="16dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            android:lineSpacingExtra="10dp"
+            android:shadowRadius="2"
+            android:shadowDy="1"
+            android:shadowColor="@color/black"
+            android:fontFamily="monospace"
+            android:text="Strawberry, (genus Fragaria), genus of more than 20 species of flowering plants in the rose family (Rosaceae) and their edible fruit. Strawberries are native to the temperate regions of the Northern Hemisphere, and cultivated varieties are widely grown throughout the world. The fruits are rich in vitamin C and are commonly eaten fresh as a dessert fruit, are used as a pastry or pie filling, and may be preserved in many ways. Strawberry shortcake—made of fresh strawberries, sponge cake, and whipped cream—is a traditional American dessert.\n\nPhysical Description\nStrawberries are low-growing herbaceous plants with a fibrous root system and a crown from which arise basal leaves. The leaves are compound, typically with three leaflets, sawtooth-edged, and usually hairy. The flowers, generally white, rarely reddish, are borne in small clusters on slender stalks arising, like the surface-creeping stems, from the axils of the leaves. As a plant ages, the root system becomes woody, and the “mother” crown sends out runners (e.g., stolons) that touch ground and root, thus enlarging the plant vegetatively. Botanically, the strawberry fruit is considered an “accessory fruit” and is not a true berry. The flesh consists of the greatly enlarged flower receptacle and is embedded with the many true fruits, or achenes, which are popularly called seeds.\n\nCultivated\nThe cultivated large-fruited strawberry (Fragaria ×ananassa) originated in Europe in the 18th century. Most countries developed their own varieties during the 19th century, and those are often specially suitable for the climate, day length, altitude, or type of production required in a particular region. Strawberries are produced commercially both for immediate consumption and for processing as frozen, canned, or preserved berries or as juice. Given the perishable nature of the berries and the unlikelihood of mechanical picking, the fruit is generally grown near centres of consumption or processing and where sufficient labour is available. The berries are handpicked directly into small baskets and crated for marketing or put into trays for processing. Early crops can be produced under glass or plastic covering. Strawberries are very perishable and require cool dry storage."
+            />
 
 
     </LinearLayout>

@@ -180,7 +180,14 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
         if (event.isTagMatchWith("response")) {
             String responseMessage = "Response from Server:\n" + event.getMessage();
             //responseTextView.setText(responseMessage);
-            Toast.makeText(this, responseMessage, Toast.LENGTH_SHORT).show();
+            if (event.getMessage().equalsIgnoreCase("Blueberry")){
+                Intent  intent=new Intent(MainActivity.this,DetailsActivity.class);
+                startActivity(intent);
+            }
+            else {
+                Toast.makeText(this, responseMessage, Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }
