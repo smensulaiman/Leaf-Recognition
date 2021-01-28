@@ -180,8 +180,13 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
         if (event.isTagMatchWith("response")) {
             String responseMessage = "Response from Server:\n" + event.getMessage();
             //responseTextView.setText(responseMessage);
+            Intent  intent=new Intent(MainActivity.this,DetailsActivity.class);
             if (event.getMessage().equalsIgnoreCase("Blueberry")){
-                Intent  intent=new Intent(MainActivity.this,DetailsActivity.class);
+                intent.putExtra("leaf","blueberry");
+                startActivity(intent);
+            }
+            else if(event.getMessage().equalsIgnoreCase("Strawberry")){
+                intent.putExtra("leaf","strawberry");
                 startActivity(intent);
             }
             else {
