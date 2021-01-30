@@ -72,7 +72,6 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-
         Dexter.withContext(this)
                 .withPermissions(
                         Manifest.permission.CAMERA,
