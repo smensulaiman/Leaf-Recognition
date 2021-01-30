@@ -186,6 +186,14 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
                 intent.putExtra("leaf","strawberry");
                 startActivity(intent);
             }
+            else if(event.getMessage().equalsIgnoreCase("Tomato")){
+                intent.putExtra("leaf","tomato");
+                startActivity(intent);
+            }
+            else if(event.getMessage().equalsIgnoreCase("Potato")){
+                intent.putExtra("leaf","potato");
+                startActivity(intent);
+            }
             else {
                 Toast.makeText(this, responseMessage, Toast.LENGTH_SHORT).show();
             }
