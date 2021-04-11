@@ -12,8 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitApiClient {
 
-    private static final String BASE_URL = "http://95.179.164.66:5000";
-
     private static Retrofit retrofit = null;
 
     private static Gson gson = new GsonBuilder()
@@ -22,7 +20,7 @@ public class RetrofitApiClient {
 
     private RetrofitApiClient() {} // So that nobody can create an object with constructor
 
-    public static synchronized Retrofit getClient() {
+    public static synchronized Retrofit getClient(String baseUrl) {
         if (retrofit==null) {
 
             int timeOut = 5 * 60;
@@ -33,7 +31,7 @@ public class RetrofitApiClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(client)
                     .build();

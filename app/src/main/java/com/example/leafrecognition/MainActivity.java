@@ -42,11 +42,13 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
     private RecyclerView rec_preview;
     private PataAdapter pataAdapter;
     String filePath;
+    SharedPref sharedPref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPref=new SharedPref(this);
         preview = (ImageView) findViewById(R.id.preview);
         cameraopen = (ImageView) findViewById(R.id.cameraopen);
         rec_preview = (RecyclerView) findViewById(R.id.rec_preview);
@@ -66,9 +68,10 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    NetworkCall.fileUpload(filePath, new ImageSenderInfo("obj", 22));
-                }catch (Exception e){}
+                try {
+                    NetworkCall.fileUpload(filePath, new ImageSenderInfo("obj", 22), sharedPref.getBaseUrl());
+                } catch (Exception e) {
+                }
             }
         });
     }
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, ""+System.currentTimeMillis(), null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "" + System.currentTimeMillis(), null);
         return Uri.parse(path);
     }
 
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
     @Override
     public void passPath(String path) {
         Picasso.get().load(new File(path)).into(preview);
-        filePath=path;
+        filePath = path;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -177,24 +180,20 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
         if (event.isTagMatchWith("response")) {
             String responseMessage = "Response from Server:\n" + event.getMessage();
             //responseTextView.setText(responseMessage);
-            Intent  intent=new Intent(MainActivity.this,DetailsActivity.class);
-            if (event.getMessage().equalsIgnoreCase("Blueberry")){
-                intent.putExtra("leaf","blueberry");
+            Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+            if (event.getMessage().equalsIgnoreCase("Blueberry")) {
+                intent.putExtra("leaf", "blueberry");
                 startActivity(intent);
-            }
-            else if(event.getMessage().equalsIgnoreCase("Strawberry")){
-                intent.putExtra("leaf","strawberry");
+            } else if (event.getMessage().equalsIgnoreCase("Strawberry")) {
+                intent.putExtra("leaf", "strawberry");
                 startActivity(intent);
-            }
-            else if(event.getMessage().equalsIgnoreCase("Tomato")){
-                intent.putExtra("leaf","tomato");
+            } else if (event.getMessage().equalsIgnoreCase("Tomato")) {
+                intent.putExtra("leaf", "tomato");
                 startActivity(intent);
-            }
-            else if(event.getMessage().equalsIgnoreCase("Potato")){
-                intent.putExtra("leaf","potato");
+            } else if (event.getMessage().equalsIgnoreCase("Potato")) {
+                intent.putExtra("leaf", "potato");
                 startActivity(intent);
-            }
-            else {
+            } else {
                 Toast.makeText(this, responseMessage, Toast.LENGTH_SHORT).show();
             }
 

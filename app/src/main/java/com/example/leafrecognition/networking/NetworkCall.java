@@ -21,9 +21,9 @@ import retrofit2.Response;
 
 public class NetworkCall {
 
-    public static void fileUpload(String filePath, ImageSenderInfo imageSenderInfo) {
+    public static void fileUpload(String filePath, ImageSenderInfo imageSenderInfo,String baseUrl) {
 
-        ApiInterface apiInterface = RetrofitApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiInterface = RetrofitApiClient.getClient(baseUrl).create(ApiInterface.class);
         Logger.addLogAdapter(new AndroidLogAdapter());
 
         File file = new File(filePath);
