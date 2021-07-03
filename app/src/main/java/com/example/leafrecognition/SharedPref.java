@@ -17,7 +17,19 @@ public class SharedPref {
         editor.apply();
     }
 
-    public String  getBaseUrl() {
-        return "http://"+mySharedPref.getString("baseUrl", "95.179.164.66:5000");
+    public void setLoginStep(String LoginStep) {
+        SharedPreferences.Editor editor = mySharedPref.edit();
+        editor.putString("LoginStep", LoginStep);
+        editor.apply();
     }
+
+    public String getBaseUrl() {
+        return "http://" + mySharedPref.getString("baseUrl", "");
+    }
+
+    public String getLoginStep() {
+        return mySharedPref.getString("LoginStep", LoginStep.welcome.toString());
+    }
+
+
 }

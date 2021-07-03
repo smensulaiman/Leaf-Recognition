@@ -193,6 +193,27 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
             } else if (event.getMessage().equalsIgnoreCase("Potato")) {
                 intent.putExtra("leaf", "potato");
                 startActivity(intent);
+            } else if (event.getMessage().equalsIgnoreCase("Data Shakh")) {
+                intent.putExtra("leaf", "data shakh");
+                startActivity(intent);
+            } else if (event.getMessage().equalsIgnoreCase("Jasmine")) {
+                intent.putExtra("leaf", "jasmine");
+                startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Mint")) {
+                intent.putExtra("leaf", "mint");
+                startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Neem")) {
+                intent.putExtra("leaf", "neem");
+                startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Dumur")) {
+                intent.putExtra("leaf", "dumur");
+                startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Joba")) {
+                intent.putExtra("leaf", "joba");
+                startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Paan")) {
+                intent.putExtra("leaf", "paan");
+                startActivity(intent);
             } else {
                 Toast.makeText(this, responseMessage, Toast.LENGTH_SHORT).show();
             }

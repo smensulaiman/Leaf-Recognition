@@ -64,32 +64,39 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mNextBtn.getText().toString().equalsIgnoreCase("FINISH")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
-                    builder.setTitle("Base Url");
+                    if(sharedPref.getBaseUrl().equals("http://")){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
+                        builder.setTitle("Base Url");
 // Set up the input
-                    final EditText input = new EditText(WelcomeActivity.this);
+                        final EditText input = new EditText(WelcomeActivity.this);
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                    input.setInputType(InputType.TYPE_CLASS_TEXT);
-                    builder.setView(input);
+                        input.setInputType(InputType.TYPE_CLASS_TEXT);
+                        builder.setView(input);
 
 // Set up the buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            sharedPref.setBaseUrl(input.getText().toString());
-                            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPref.setBaseUrl(input.getText().toString());
+                                sharedPref.setLoginStep(LoginStep.login.toString());
+                                Intent intent = new Intent(WelcomeActivity.this, StartActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
 
-                    builder.show();
+                        builder.show();
+                    }else {
+                        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
 
                     return;
                 }
