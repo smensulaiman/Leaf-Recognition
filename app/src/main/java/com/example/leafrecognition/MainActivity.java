@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.leafrecognition.networking.EventModel;
 import com.example.leafrecognition.networking.ImageSenderInfo;
 import com.example.leafrecognition.networking.NetworkCall;
+import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -69,8 +70,13 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
             @Override
             public void onClick(View view) {
                 try {
-                    NetworkCall.fileUpload(filePath, new ImageSenderInfo("obj", 22), sharedPref.getBaseUrl());
+                    Logger.d("click: " + "click");
+                    Log.d("click","click");
+                    //NetworkCall.fileUpload(filePath, new ImageSenderInfo("obj", 22), sharedPref.getBaseUrl());
+                    NetworkCall.fileUploadBase(filePath, sharedPref.getBaseUrl());
                 } catch (Exception e) {
+                    Log.d("click",e.getMessage());
+                    Logger.d("click: " + "error");
                 }
             }
         });

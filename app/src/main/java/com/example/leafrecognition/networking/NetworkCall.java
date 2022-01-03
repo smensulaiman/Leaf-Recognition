@@ -2,6 +2,11 @@ package com.example.leafrecognition.networking;
 
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -10,6 +15,7 @@ import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import okhttp3.MediaType;
@@ -57,6 +63,55 @@ public class NetworkCall {
 
             @Override
             public void onFailure(@NonNull Call<ResponseModel> call, @NonNull Throwable t) {
+                Logger.d("Exception: " + t);
+                EventBus.getDefault().post(new EventModel("response", t.getMessage()));
+            }
+        });
+    }
+
+    public static void fileUploadBase(String filePath,String baseUrl) {
+
+        ApiInterface apiInterface = RetrofitApiClient.getClient(baseUrl).create(ApiInterface.class);
+        Logger.addLogAdapter(new AndroidLogAdapter());
+
+        File imgFile = new File(filePath);
+        String base64Image="";
+        try {
+            if (imgFile.exists() && imgFile.length() > 0) {
+                Bitmap bm = BitmapFactory.decodeFile(filePath);
+                ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, bOut);
+                base64Image = Base64.encodeToString(bOut.toByteArray(), Base64.DEFAULT);
+               // Log.d("click",base64Image);
+            }else{
+                //Log.d("click",filePath);
+                //Log.d("click",base64Image);
+            }
+        }
+        catch (Exception e){
+            Log.d("click",e.getMessage());
+        }
+
+
+        // finally, execute the request
+        Call<ResponseModel2> call = apiInterface.fileUpload2(new RequestModel2(base64Image));
+        call.enqueue(new Callback<ResponseModel2>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseModel2> call, @NonNull Response<ResponseModel2> response) {
+                Logger.d("Response: " + response);
+
+                ResponseModel2 responseModel = response.body();
+
+                if(responseModel != null){
+                    EventBus.getDefault().post(new EventModel("response", responseModel.getPrediction().getData()));
+                    Logger.d("Response code " + response.code() +
+                            " Response Message: " + responseModel.getPrediction().getData());
+                } else
+                    EventBus.getDefault().post(new EventModel("response", "ResponseModel is NULL"));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseModel2> call, @NonNull Throwable t) {
                 Logger.d("Exception: " + t);
                 EventBus.getDefault().post(new EventModel("response", t.getMessage()));
             }
