@@ -160,6 +160,24 @@ public class DetailsActivity extends AppCompatActivity {
                 slide_description.setText("Dumur or Hairy fig (Ficus hispida, family: Moraceae) is a medium-sized tree from ficus genus with branches. The hairy-leaved tree is native to Bangladesh, as well as South and Southeast Asia and  New Guinea, Australia and Andaman island. Figs are eaten as vegetables in Bangladesh and India. Flowers remain inside fruit and cannot be seen from outside. Fruits called figs grow in cluster on branches. The ripe fruit is yellow. Ovulate green leaves are hairy and rough. Leaf is 12-18 cm long and pedicel is 2-5 cm long. Figs are used in stomach-ache and constipation. It is also used to cure different teeth diseases. Ripe fruits are eaten by birds and seeds are spread with their droppings. The plant grows in wilderness and fallow lands. It can be seen everywhere in Bangladesh. The species name 'hispida' derives from its hairy leaves.");
                 image.setImageResource(R.drawable.dumur);
                 break;
+            case "lemon":
+                title.setText("Lemon");
+                sub_title.setText("Citrus limon");
+                slide_description.setText("lemon, (Citrus ×limon), small tree or spreading bush of the rue family (Rutaceae) and its edible fruit. Citric acid may amount to 5 percent or more by weight of the lemon's juice, which is also rich in vitamin C and contains smaller amounts of the B vitamins, particularly thiamin, riboflavin, and niacin.");
+                image.setImageResource(R.drawable.lemon);
+                break;
+            case "guava":
+                title.setText("Guava");
+                sub_title.setText("Psidium guajava");
+                slide_description.setText("guava, (Psidium guajava), small tropical tree or shrub of the family Myrtaceae, cultivated for its edible fruits. Guava trees are native to tropical America and are grown in tropical and subtropical areas worldwide. Guava fruits are processed into jams, jellies, and preserves and are common pastry fillings.");
+                image.setImageResource(R.drawable.guava);
+                break;
+            case "mango":
+                title.setText("Mango");
+                sub_title.setText("Mangifera indica");
+                slide_description.setText("The fruit varies greatly in size and character. Its form is oval, round, heart-shaped, kidney-shaped, or long and slender. The smallest mangoes are no larger than plums, while others may weigh 1.8 to 2.3 kg (4 to 5 pounds). Some varieties are vividly coloured with shades of red and yellow, while others are dull green.");
+                image.setImageResource(R.drawable.mango);
+                break;
 
 
         }

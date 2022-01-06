@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -220,6 +221,23 @@ public class MainActivity extends AppCompatActivity implements PathInterface {
             }else if (event.getMessage().equalsIgnoreCase("Paan")) {
                 intent.putExtra("leaf", "paan");
                 startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Mango")) {
+                intent.putExtra("leaf", "mango");
+                startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Guava")) {
+                intent.putExtra("leaf", "guava");
+                startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Lemon")) {
+                intent.putExtra("leaf", "lemon");
+                startActivity(intent);
+            }else if (event.getMessage().equalsIgnoreCase("Other")) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Sorry!")
+                        .setMessage("No leaf found.")
+                        .setPositiveButton(android.R.string.ok, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .create()
+                        .show();
             } else {
                 Toast.makeText(this, responseMessage, Toast.LENGTH_SHORT).show();
             }
